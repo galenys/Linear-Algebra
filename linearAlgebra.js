@@ -1,19 +1,35 @@
 var theta = 0.03;
-
-var normalPoints = [[],[],[]];
 let dense = 30;
+let scaler = 300;
+
+// Torus
+var torusPoints = [[],[],[]];
 for (let alpha = 0; alpha < dense; alpha++) {
-  var pointHeight = Math.sin(2*(alpha/dense)*Math.PI)*100;
+  var pointHeight = Math.sin(2*(alpha/dense)*Math.PI)*scaler/3;
   for (let theta = 0; theta < dense; theta++) {
-    var pointX = Math.cos((theta/dense)*2*Math.PI)*300*Math.cos((alpha/dense)*Math.PI);
-    var pointY = Math.sin((theta/dense)*2*Math.PI)*300*Math.cos((alpha/dense)*Math.PI);
-    normalPoints[0].push(pointHeight);
-    normalPoints[1].push(pointX);
-    normalPoints[2].push(pointY);
+    var pointX = Math.cos((theta/dense)*2*Math.PI)*scaler*Math.cos((alpha/dense)*Math.PI);
+    var pointY = Math.sin((theta/dense)*2*Math.PI)*scaler*Math.cos((alpha/dense)*Math.PI);
+    torusPoints[0].push(pointHeight);
+    torusPoints[1].push(pointX);
+    torusPoints[2].push(pointY);
   }
 }
-console.log(normalPoints)
-var points = math.matrix(normalPoints);
+
+// Sphere
+var spherePoints = [[],[],[]];
+for (let alpha = 0; alpha < dense; alpha++) {
+  var pointHeight = Math.sin(2*(alpha/dense)*Math.PI)*scaler;
+  for (let theta = 0; theta < dense; theta++) {
+    var pointX = Math.cos((theta/dense)*2*Math.PI)*scaler*Math.cos(2*(alpha/dense)*Math.PI);
+    var pointY = Math.sin((theta/dense)*2*Math.PI)*scaler*Math.cos(2*(alpha/dense)*Math.PI);
+    spherePoints[0].push(pointHeight);
+    spherePoints[1].push(pointX);
+    spherePoints[2].push(pointY);
+  }
+}
+
+// change this for different geometries
+var points = math.matrix(spherePoints);
 
 axisDimension = 400;
 var axes = math.matrix([
