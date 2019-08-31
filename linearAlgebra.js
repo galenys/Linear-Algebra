@@ -1,11 +1,19 @@
-
 var theta = 0.03;
 
-var points = math.matrix([
-  [300, -300, 0, 0, 0, 0],
-  [0, 0, 300, -300, 0, 0],
-  [0, 0, 0, 0, 300, -300]
-]);
+var normalPoints = [[],[],[]];
+let dense = 30;
+for (let alpha = 0; alpha < dense; alpha++) {
+  var pointHeight = Math.sin(2*(alpha/dense)*Math.PI)*100;
+  for (let theta = 0; theta < dense; theta++) {
+    var pointX = Math.cos((theta/dense)*2*Math.PI)*300*Math.cos((alpha/dense)*Math.PI);
+    var pointY = Math.sin((theta/dense)*2*Math.PI)*300*Math.cos((alpha/dense)*Math.PI);
+    normalPoints[0].push(pointHeight);
+    normalPoints[1].push(pointX);
+    normalPoints[2].push(pointY);
+  }
+}
+console.log(normalPoints)
+var points = math.matrix(normalPoints);
 
 axisDimension = 400;
 var axes = math.matrix([
@@ -47,7 +55,7 @@ function draw() {
   for (var i = 0; i < points._data[0].length; i++) {
     var x = points._data[0][i];
     var y = points._data[1][i];
-    ellipse(x, y, 10, 10);
+    ellipse(x, y, 2, 2);
   }
 
 
@@ -61,15 +69,4 @@ function draw() {
   line(axes._data[0][0], axes._data[1][0], axes._data[0][1], axes._data[1][1]); // x-axis
   line(axes._data[0][2], axes._data[1][2], axes._data[0][3], axes._data[1][3]); // y-axis
   line(axes._data[0][4], axes._data[1][4], axes._data[0][5], axes._data[1][5]); // z-axis
-}
-
-function mousePressed() {
-  var x = -(mouseX - width / 2);
-  var y = -(mouseY - height / 2);
-
-  points._data[0].push(x);
-  points._data[1].push(y);
-  points._data[2].push(0);
-
-  console.log(points._data);
 }
